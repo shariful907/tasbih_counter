@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tasbih_counter/const/text_style_widgets.dart';
@@ -26,6 +28,74 @@ class _tasbih_widgets extends State<Tasbih_activity>{
       });
     });
   }
+
+  void _Increment (){
+    setState(() {
+      count++;
+    });
+  }
+
+  void _Reset(){
+    setState(() {
+      count = 0;
+    });
+  }
+
+
+
+  //StopWatch Start
+  Stopwatch stopwatch = Stopwatch();
+  Timer? timer;
+
+  String formattedTime = "00:00:00";
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        formattedTime = formatTime(stopwatch.elapsedMilliseconds);
+      });
+    });
+  }
+
+  String formatTime(int milliseconds) {
+    int seconds = milliseconds ~/ 1000;
+    int minutes = seconds ~/ 60;
+    int hours = minutes ~/ 60;
+
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+
+    return "${hours.toString().padLeft(2, '0')}:"
+        "${minutes.toString().padLeft(2, '0')}:"
+        "${seconds.toString().padLeft(2, '0')}";
+  }
+  //StopWatch End
+
+  //StopWatch Formate and Value
+  void resetCounter() {
+    setState(() {
+      count = 0;
+      stopwatch.reset();
+      formattedTime = "00:00:00";
+    });
+  }
+
+  void startStopwatch() {
+    stopwatch.start();
+    startTimer();
+  }
+
+  void stopStopwatch() {
+    stopwatch.stop();
+    timer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+  //StopWatch Formate and Value End
 
 
 
@@ -99,7 +169,7 @@ class _tasbih_widgets extends State<Tasbih_activity>{
                     // width: 80,
                     // height: 30,
                     // color: Color(0xFFFFFFFF),
-                    child: Text("00:00:00:00",
+                    child: Text(formattedTime,
                       //formattedTime,
                       style: AppTextStyle.stopwatchText14,),
                   ),
@@ -113,13 +183,19 @@ class _tasbih_widgets extends State<Tasbih_activity>{
                   SizedBox(height: 30,),
                   Container(
                     child: Text(
-                      "000", style: AppTextStyle.tasbihCountText20White,),
+                      '$count', style: AppTextStyle.tasbihCountText20White,),
                   ),
 
                   SizedBox(height: 30,),
-                  Switch(
-                      value: switchValue,
-                      onChanged: toggleSwitch
+                  SizedBox(
+                    width: 100,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Switch(
+                        value: switchValue,
+                        onChanged: toggleSwitch,
+                      ),
+                    )
                   ),
 
 
@@ -128,30 +204,18 @@ class _tasbih_widgets extends State<Tasbih_activity>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 40,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Color(0xffededed),
-                          //shape: BoxShape.circle,
-                          borderRadius: BorderRadius.circular(15)
-                        ),
-                        child: IconButton(icon: Icon(Icons.refresh,
-                          //color: Colors.white,
-                          size: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF764CA5),
-                        ),
-                            onPressed:(){},
-                          //style: AppTextStyle.playStopResetButtonPurpleText14,
-                        ),
-                      ),
+
+                      ElevatedButton(onPressed: (){setState(() {
+                        count = 0;
+                        stopwatch.reset();
+                        formattedTime = "00:00:00";
+                      });}, child: Icon(Icons.refresh, fontWeight: FontWeight.bold, size: 20,),),
 
                       SizedBox(width: 30,),
-                      ElevatedButton(onPressed: (){}, child: Text("Stop")),
+                      ElevatedButton(onPressed: stopStopwatch, child: Text("Stop")),
 
                       SizedBox(width: 30,),
-                      ElevatedButton(onPressed: (){}, child: Icon(Icons.play_arrow))
+                      ElevatedButton(onPressed: startStopwatch, child: Icon(Icons.play_arrow))
                     ],
                   )
                 ],
