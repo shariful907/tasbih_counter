@@ -10,7 +10,25 @@ class Tasbih_activity extends StatefulWidget{
 
 class _tasbih_widgets extends State<Tasbih_activity>{
 
-  int _counter = 0;
+  int count = 0;
+
+  bool switchValue = false;
+
+  void toggleSwitch(bool value){
+    setState(() {
+      count++;
+          switchValue = true;
+    });
+
+    Future.delayed(Duration(milliseconds: 150),(){
+      setState(() {
+        switchValue = false;
+      });
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +117,10 @@ class _tasbih_widgets extends State<Tasbih_activity>{
                   ),
 
                   SizedBox(height: 30,),
-                  // Switch(
-                  //   value: switchValue,
-                  //   activeColor: Colors.white,
-                  //
-                  // ),
+                  Switch(
+                      value: switchValue,
+                      onChanged: toggleSwitch
+                  ),
 
 
                   SizedBox(height: 30,),
