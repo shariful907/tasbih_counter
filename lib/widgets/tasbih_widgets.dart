@@ -11,7 +11,7 @@ class Tasbih_activity extends StatefulWidget{
 class _tasbih_widgets extends State<Tasbih_activity>{
 
   int count = 0;
-
+//
   bool switchValue = false;
 
   void toggleSwitch(bool value){
