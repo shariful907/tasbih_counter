@@ -208,7 +208,7 @@ class _tasbih_widgets extends State<Tasbih_activity>{
                       ElevatedButton(onPressed: (){setState(() {
                         count = 0;
                         stopwatch.reset();
-                        formattedTime = "00:00:00";
+                        formattedTime;
                       });}, child: Icon(Icons.refresh, fontWeight: FontWeight.bold, size: 20,),),
 
                       SizedBox(width: 30,),
