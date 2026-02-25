@@ -48,7 +48,7 @@ class _tasbih_widgets extends State<Tasbih_activity>{
               width: 30,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffCEC5D8).withOpacity(.76),
+                  color: Color(0xffCEC5D8),
                   image: DecorationImage(
                       image: AssetImage("assets/images/bell-outline.png"))
 
